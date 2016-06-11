@@ -12,6 +12,7 @@ class PluginAverageTest extends PHPUnit_Framework_TestCase {
                 "total_count" => $value
             );
         }
+        echo $dict;
         return $dict;
     }
 
@@ -24,6 +25,8 @@ class PluginAverageTest extends PHPUnit_Framework_TestCase {
             'week' => $week,
             'week4' => $week4
         );
+        echo $params;
+        echo var_dump($params);
         $result = plugin_average($params);
         $this->assertCount(3, $result);
         $this->assertCount(24, $result['day']);

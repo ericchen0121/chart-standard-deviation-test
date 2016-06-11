@@ -1,5 +1,9 @@
-<?php
+#!/usr/bin/php
 
+<?php
+$str = file_get_contents("sample_data/sample_data.json");
+$json = json_decode($str, true);
+plugin_average($json);
 /**
  * Calculates Average between Current and Past Periods
  *
@@ -35,5 +39,8 @@ function plugin_average($params) {
         }
         $periodAverages[$periodName] = $averageData;
     }
+    echo var_dump($periodAverages);
     return $periodAverages;
 }
+
+?>
