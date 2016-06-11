@@ -1,9 +1,10 @@
 #!/usr/bin/php
 
 <?php
-// $str = file_get_contents("sample_data/sample_data.json");
-// $json = json_decode($str, true);
-// plugin_standarddeviation($json);
+$str = file_get_contents("sample_data/sample_data.json");
+$json = json_decode($str, true);
+// echo var_dump($json);
+plugin_standarddeviation($json);
 /**
  * Standard Deviation
  *
@@ -13,21 +14,21 @@
  * @return array - array(day, week, week4) -> for today, yesterday
  */
 function plugin_standarddeviation($params) {
-    // calculate 2 day, 2 week and 8 week trailing stadard deviations
+    // calculate 2 day, 2 week and 8 week trailing standard deviations
     $periods = array("day" => 48, "week" => 14, "week4" => 56);
-    $standardDeviation = array(
-        'day' => array(),
-        'week' => array(),
-        'week4' => array()
-    );
+    // $standardDeviation = array(
+    //     'day' => array(),
+    //     'week' => array(),
+    //     'week4' => array()
+    // );
 
     // FOR EACH SET OF DATA
     foreach ($periods as $periodName => $periodLength) {
        // data is an array
       $data = $params[$periodName]; // $params['day'], $params['week'], etc.
-
       $stdDevData = array();
       $loopCount = $periodLength; 
+      // while($loopCount > 0) {
       while($loopCount > 0) {
         // initialize variables
         $currentPeriod = array_slice($data, 0, $periodLength);
@@ -56,21 +57,23 @@ function plugin_standarddeviation($params) {
         }
         
         // 3. Calculate variance
-        if ($count > 0){
-          $variance =  $sumSquares / $count;
+        if ($count > 1){
+          $variance =  $sumSquares / ($count - 1);
         }
 
        // 4. Calculate Std Dev
        $stdDev = sqrt($variance);
 
+       // echo "DATA IS";
+       // echo var_dump($data);
        if (!empty($data) ) {
         $key = current(array_keys($currentPeriod));
         // shift the data set
-        array_shift($data);
+        reset($data);
+        $key = key($data);
+        unset($data[$key]);
        }
-
        $stdDevData[$key] = $stdDev;
-       
        $loopCount--;
 
       }

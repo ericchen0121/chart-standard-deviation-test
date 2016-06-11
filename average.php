@@ -1,7 +1,7 @@
 #!/usr/bin/php
 
 <?php
-$str = file_get_contents("sample_data/sample_data.json");
+$str = file_get_contents("sample_data/sample_data3.json");
 $json = json_decode($str, true);
 plugin_average($json);
 /**
